@@ -24,7 +24,7 @@ class MyEventEmitter extends EventEmitter {
   public toIterable<TEv extends keyof MyEvents>(
     event: TEv,
   ): AsyncIterable<Parameters<MyEvents[TEv]>> {
-    return on(this, event);
+    return on(this, event) as any;
   }
 }
 
