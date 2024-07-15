@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@keyframes text-gradient {
+  100% {
+    background-position: -200%;
+  }
+}
