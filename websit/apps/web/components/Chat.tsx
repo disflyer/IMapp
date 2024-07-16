@@ -4,17 +4,23 @@ import { api } from "trpc/react";
 const Chat = ({ channelId, userId }) => {
   const [messages, setMessages] = useState([])
   const [content, setContent] = useState("")
+  const [loading, setLoading] = useState(true)
 
   const { mutateAsync } = api.post.add.useMutation()
   api.post.onAdd.useSubscription({ channelId }, {
     onData(event) {
       setMessages(pre => pre.concat([event.data]));
+    },
+    onStarted() {
+      setMessages([])
+      setLoading(false)
     }
   },)
   return (
     <div className="bg-gray-900 text-white overflow-hidden mx-auto w-[850px] no-scrollbar">
       <div className="bg-gray-800 p-4 text-lg font-bold">Test Chat</div>
       <div className="p-4 h-96 overflow-y-auto space-y-6 flex flex-col-reverse">
+        {loading && <div className="text-gray-500 flex justify-center h-full items-center">loading</div>}
         {messages.map((message) => (
           <div key={message.id} className={`${message.author === userId ? 'flex flex-row-reverse' : 'flex'} space-x-4`}>
             <div className={`flex flex-col ${message.author === userId ? 'items-end' : 'items-start'}`}>
