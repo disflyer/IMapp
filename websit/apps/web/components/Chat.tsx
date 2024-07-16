@@ -15,10 +15,7 @@ const Chat = ({ channelId, userId }) => {
       }
       setMessages(pre => pre.concat([event.data]));
       lastEventId.current = event.data?.id
-    },
-    onStarted() {
-      setMessages([])
-    },
+    }
   },)
   return (
     <div className="bg-gray-900 text-white overflow-hidden mx-auto w-[850px] no-scrollbar">
