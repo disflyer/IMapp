@@ -68,7 +68,9 @@ export const postRouter = createTRPCRouter({
           const newItemsSinceCursor = await opts.ctx.db.post.findMany({
             where: {
               channelId: opts.input.channelId,
-              createdAt: lastMessageCursor ?? undefined
+              createdAt: lastMessageCursor ? {
+                gt: lastMessageCursor
+              } : undefined
             },
             orderBy: {
               createdAt: "asc"
