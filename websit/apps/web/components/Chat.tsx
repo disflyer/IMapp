@@ -9,11 +9,13 @@ const Chat = ({ channelId, userId }) => {
   const { mutateAsync } = api.post.add.useMutation()
   api.post.onAdd.useSubscription({ channelId }, {
     onData(event) {
+      if (messages.length === 0) {
+        setLoading(false)
+      }
       setMessages(pre => pre.concat([event.data]));
     },
     onStarted() {
       setMessages([])
-      setLoading(false)
     }
   },)
   return (
