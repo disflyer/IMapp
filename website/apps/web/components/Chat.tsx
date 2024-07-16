@@ -33,7 +33,7 @@ const Chat = ({ channelId, userId }) => {
             <div className={`flex flex-col ${message.author === userId ? 'items-end' : 'items-start'}`}>
               <div className="flex items-center space-x-2 mb-1">
                 <span className="text-gray-400">{message.author}</span>
-                <span className=" text-gray-500 text-xs">{message.createAt}</span>
+                <span className=" text-gray-500 text-xs">{`${message.createdAt.getHours()}:${message.createdAt.getMinutes()}`}</span>
               </div>
               <div className={`${message.author === userId ? 'text-black bg-green-300' : 'bg-gray-700'} p-3 rounded-lg max-w-[500px] break-words`}>
                 {message.content}
