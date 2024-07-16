@@ -5,7 +5,7 @@ const Chat = ({ channelId, userId }) => {
   const [messages, setMessages] = useState([])
   const [content, setContent] = useState("")
   const [loading, setLoading] = useState(true)
-  const lastEventId = useRef()
+  const lastEventId = useRef(undefined)
 
   const { mutateAsync } = api.post.add.useMutation()
   api.post.onAdd.useSubscription({ channelId, lastEventId: lastEventId.current }, {
@@ -13,8 +13,14 @@ const Chat = ({ channelId, userId }) => {
       if (messages.length === 0) {
         setLoading(false)
       }
-      setMessages(pre => pre.concat([event.data]));
-      lastEventId.current = event.data?.id
+      setMessages(pre => {
+        let result = pre.concat([])
+        result.unshift(event.data)
+        return result
+      });
+    },
+    onError() {
+      lastEventId.current = messages?.[messages.length - 1]?.id
     }
   },)
   return (

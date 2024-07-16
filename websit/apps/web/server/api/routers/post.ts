@@ -71,7 +71,7 @@ export const postRouter = createTRPCRouter({
               createdAt: lastMessageCursor ?? undefined
             },
             orderBy: {
-              createdAt: "desc"
+              createdAt: "asc"
             }
           });
 
