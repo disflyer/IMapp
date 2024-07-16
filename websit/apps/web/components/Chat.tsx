@@ -1,22 +1,24 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { api } from "trpc/react";
 
 const Chat = ({ channelId, userId }) => {
   const [messages, setMessages] = useState([])
   const [content, setContent] = useState("")
   const [loading, setLoading] = useState(true)
+  const lastEventId = useRef()
 
   const { mutateAsync } = api.post.add.useMutation()
-  api.post.onAdd.useSubscription({ channelId }, {
+  api.post.onAdd.useSubscription({ channelId, lastEventId: lastEventId.current }, {
     onData(event) {
       if (messages.length === 0) {
         setLoading(false)
       }
       setMessages(pre => pre.concat([event.data]));
+      lastEventId.current = event.data?.id
     },
     onStarted() {
       setMessages([])
-    }
+    },
   },)
   return (
     <div className="bg-gray-900 text-white overflow-hidden mx-auto w-[850px] no-scrollbar">
