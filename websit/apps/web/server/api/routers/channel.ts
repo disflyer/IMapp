@@ -28,6 +28,7 @@ class MyEventEmitter extends EventEmitter {
   }
 }
 
+// use redis evente mitter in product env.
 export const ee = new MyEventEmitter();
 
 export const channelRouter = createTRPCRouter({

@@ -10,14 +10,14 @@ const Chat = ({ channelId, userId }) => {
   const { mutateAsync } = api.post.add.useMutation()
   api.post.onAdd.useSubscription({ channelId, lastEventId: lastEventId.current }, {
     onData(event) {
-      if (messages.length === 0) {
-        setLoading(false)
-      }
       setMessages(pre => {
         let result = pre.concat([])
         result.unshift(event.data)
         return result
       });
+    },
+    onStarted() {
+      setLoading(false)
     },
     onError() {
       lastEventId.current = messages?.[messages.length - 1]?.id
